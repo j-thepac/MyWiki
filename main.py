@@ -48,12 +48,21 @@ def redis_get():
         print("Redis server not operational")
         print(str(ex))
 
-
-@app.route("/",methods=["GET","POST"])
-def fn():
+@app.route("/<string:resource>",methods=["GET"])
+def fn_get(resource):
     try:
         if(request.method=="GET"):
             return render_template("index.html",data=redis_get())
+        else:
+            return "not Implemented"
+    except Exception as ex:
+        print(str(ex))
+        return "Fail"
+
+
+@app.route("/",methods=["POST"])
+def fn_post():
+    try:
         if (request.method == "POST"):
             if(request.headers["content-type"]=="application/json"):
                 data=(request.json)

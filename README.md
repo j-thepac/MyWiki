@@ -12,7 +12,7 @@
 
 
 ## Application URL :
-    http://127.0.0.1:5000 (local)
+    http://127.0.0.1:5000/anything (local)
 
 
 ## Editing:
