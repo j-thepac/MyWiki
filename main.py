@@ -10,16 +10,63 @@
 # print(value)
 
 from flask import Flask,render_template,json,jsonify,request
+import redis
+import os
+import logging
 
+app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 app=Flask(__name__)
+debug=os.environ.get("REDIS_DEBUG")
+url = "redis-19150.c252.ap-southeast-1-1.ec2.cloud.redislabs.com"
+port = "19150"
+password = os.environ.get("REDIS_PASSWORD")
+r = redis.Redis(url, port, password=password)
+
+
+class RedisObject:
+    def __init__(self,title,body):
+        self.title=title
+        self.body=body
+
+def redis_set(redisobject:RedisObject):
+    try:
+
+        r.set('title', redisobject.title)
+        r.set('body', redisobject.body)
+    except Exception as ex:
+        print("Redis server not operational")
+        print(str(ex))
+
+
+def redis_get():
+    try:
+        title=r.get('title')
+        body=r.get('body')
+        return RedisObject(title,body)
+    except Exception as ex:
+        print("Redis server not operational")
+        print(str(ex))
 
 
 @app.route("/",methods=["GET","POST"])
 def fn():
-    if(request.method=="GET"):return render_template("index.html")
+    try:
+        if(request.method=="GET"):
+            return render_template("index.html",data=redis_get())
+        if (request.method == "POST"):
+            if(request.headers["content-type"]=="application/json"):
+                data=(request.json)
+                title=data["title"]
+                body=data["body"]
+                redis_set(RedisObject(title,body))
+                return ("Pass:"+str(json.dumps(data)))
+        else:
+            return "not Implemented"
+    except Exception as ex:
+        print(str(ex))
+        return "Fail"
 
 
 
-if (__name__=="__main__"):app.run()
-
-
+if (__name__=="__main__"):app.run(debug=debug)
