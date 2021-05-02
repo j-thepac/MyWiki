@@ -1,3 +1,6 @@
+#   Access application
+    http://127.0.0.1:5000/anything (local)
+    https://wikipedia-us.herokuapp.com/anything (heroku)
 
 # Wiki  Project
     1. Display Wiki page
