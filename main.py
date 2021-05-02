@@ -1,14 +1,5 @@
 
 
-# import redis
-#
-#
-# r=redis.Redis('redis-19150.c252.ap-southeast-1-1.ec2.cloud.redislabs.com',19150,password='Fy3RFYIxMz34AHyeIkLGr8gYqlvpNgB5')
-#
-# r.set('foo', 'bar')
-# value = r.get('foo')
-# print(value)
-
 from flask import Flask,render_template,json,jsonify,request
 import redis
 import os
@@ -18,8 +9,8 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 app=Flask(__name__)
 debug=os.environ.get("REDIS_DEBUG")
-url = "redis-19150.c252.ap-southeast-1-1.ec2.cloud.redislabs.com"
-port = "19150"
+url = os.environ.get("REDIS_URL")
+port = os.environ.get("REDIS_PORT")
 password = os.environ.get("REDIS_PASSWORD")
 r = redis.Redis(url, port, password=password)
 
