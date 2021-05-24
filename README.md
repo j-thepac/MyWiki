@@ -44,6 +44,9 @@
               "title": "football"
             }
 
+## Python Posts:
+    import requests
+    r=requests.post(url=url,json={"title":"t","body":"b")
 
 ## Procfile example:
 
