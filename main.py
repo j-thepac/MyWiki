@@ -69,4 +69,4 @@ def fn_post():
 
 
 
-if (__name__=="__main__"):app.run(debug=debug)
+if (__name__=="__main__"):app.run(host="localhost",debug=debug)
