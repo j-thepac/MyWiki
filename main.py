@@ -32,8 +32,8 @@ def redis_set(redisobject:RedisObject):
 
 def redis_get():
     try:
-        title=r.get('title')
-        body=r.get('body')
+        title=r.get('title').decode('utf-8')
+        body=r.get('body').decode('utf-8')
         return RedisObject(title,body)
     except Exception as ex:
         print("Redis server not operational")
@@ -59,7 +59,7 @@ def fn_post():
                 data=(request.json)
                 title=data["title"]
                 body=data["body"]
-                redis_set(RedisObject(title.decode('utf-8'),body.decode('utf-8')))
+                redis_set(RedisObject(title,body))
                 return ("Pass:"+str(json.dumps(data)))
         else:
             return "not Implemented"
