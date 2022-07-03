@@ -59,7 +59,7 @@ def fn_post():
                 data=(request.json)
                 title=data["title"]
                 body=data["body"]
-                redis_set(RedisObject(title,body))
+                redis_set(RedisObject(title.decode('utf-8'),body.decode('utf-8')))
                 return ("Pass:"+str(json.dumps(data)))
         else:
             return "not Implemented"
